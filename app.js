@@ -117,3 +117,13 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`App running at http://localhost:${port}`);
 });
+
+// create variable to play audio
+var src = document.createElement("source");
+src.src = "space-158081.mp3"
+soundFile.appendChild(src);
+
+//call playMusic function from main.js
+soundFile.load();
+soundFile.volume = 30;
+soundFile.playMusic();

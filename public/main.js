@@ -160,3 +160,8 @@ function displayTracks(tracks) {
         trackList.appendChild(artistItem);
     });
 }
+
+function playMusic(){
+    soundFile.currentTime = 0.01
+    soundFile.volume = volume;     
+  }
