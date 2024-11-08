@@ -162,6 +162,11 @@ function displayTracks(tracks) {
 }
 
 function playMusic(){
+    // create variable to play audio
+    var src = document.createElement("source");
+    src.src = "space-158081.mp3"
+    soundFile.appendChild(src);
+
     soundFile.currentTime = 0.01
     soundFile.volume = volume;     
   }
