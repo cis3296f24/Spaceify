@@ -113,19 +113,31 @@ function renderTracks(data) {
     const minSize = 5;
     const maxSize = 100;
 
-    svg.selectAll("circle")
+    const circles = svg.selectAll("circle")
         .data(topArtists)
         .enter()
         .append("circle")
         .attr("cx", d => xScale(d.value.avgPopularity))
         .attr("cy", d => yScale(d.value.avgDuration))
-        .attr("r", d => {
-            const radius = minSize + ((d.value.avgPopularity / 100) * (maxSize - minSize));
-            return radius;
-        })
+        .attr("r", d => Math.sqrt(d.value.count) * 5) // Size based on number of tracks
         .attr("fill", (d, i) => planetColors[i % planetColors.length])
         .attr("stroke", "white")
         .attr("stroke-width", 2);
+
+    function rotatePlanets() {
+        circles.transition()
+            .duration(10000)  // Adjust the duration as needed
+            .attrTween("transform", function(d, i) {
+                const interpolate = d3.interpolateString("rotate(0, " + width / 2 + ", " + height / 2 + ")",
+                    "rotate(360, " + width / 2 + ", " + height / 2 + ")");
+                return function(t) {
+                    return interpolate(t);
+                };
+            })
+            .on("end", rotatePlanets); // Restart the animation once complete
+    }
+
+    rotatePlanets();
 
     svg.selectAll(".artist-label")
         .data(topArtists)
