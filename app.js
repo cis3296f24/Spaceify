@@ -117,9 +117,3 @@ app.get('/', (req, res) => {
 app.listen(port, () => {
   console.log(`App running at http://localhost:${port}`);
 });
-
-
-//call playMusic function from main.js
-soundFile.load();
-soundFile.volume = 30;
-soundFile.playMusic();
