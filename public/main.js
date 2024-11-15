@@ -159,18 +159,4 @@ function displayTracks(tracks) {
         artistItem.textContent = `${artist.key} (${artist.value.count} tracks)`;
         trackList.appendChild(artistItem);
     });
-
-     // create variable to play audio
-     var sound = document.createElement('audio');
-     var src = document.createElement('source');
-     src.src = "space-158081.mp3";
-
-     soundFile.appendChild(src);
- 
-     //Set the time of where the music starts and volume
-     soundFile.currentTime = 0.0;
-     soundFile.volume = 0.5; 
-
-     soundFile.load();
-     soundFile.play();
 }
