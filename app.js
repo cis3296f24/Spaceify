@@ -1,4 +1,3 @@
-// Import required modules
 const express = require('express');
 const multer = require("multer");
 const path = require('path');
@@ -10,7 +9,8 @@ const session = require('express-session');
 // Configure spaceify user database and friends feature
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-// Define the schema for users, including a list of friends
+
+// Define the User schema and model
 const UserSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -36,11 +36,12 @@ const upload = multer({ storage });
 const app = express();
 const port = 3000; // Define the port variable
 
-// Middleware for parsing JSON and URL-encoded data
+// Middleware to parse JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public')); // Serve static files from the 'public' directory
 
-app.use(express.static('public')); // Assuming your static files are in a 'public' directory
+// Configure session management
 app.use(session({
   secret: 'your-secret-key', // Change this to a secure key
   resave: false,
@@ -68,15 +69,12 @@ app.use(
       },
     })
 );
-
 // Load environment variables from the .env file
 require('dotenv').config();
-
 // Spotify API credentials
-const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
-const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
+const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID; // Your Spotify client ID
+const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET; // Your Spotify client secret
 const REDIRECT_URI = 'http://localhost:3000/callback';
-
 
 // Redirect to Spotify authorization page
 app.get('/login', (req, res) => {
@@ -104,7 +102,6 @@ app.get('/callback', async (req, res) => {
   };
 
   try {
-    // Request access token from Spotify
     const response = await axios.post(authOptions.url, new URLSearchParams(authOptions.form), { headers: authOptions.headers });
     const accessToken = response.data.access_token;
     req.session.access_token = accessToken; // Store the access token in session
@@ -130,12 +127,12 @@ app.get('/top-tracks', async (req, res) => {
       headers: { 'Authorization': `Bearer ${accessToken}` }
     });
     res.json(response.data.items); // Send back the top tracks
-    //res.json({ firstName: 'Tobi' });
   } catch (error) {
     console.error('Error fetching top tracks:', error);
     res.status(500).json({ error: 'Failed to fetch top tracks' });
   }
 });
+
 // Check authentication status
 app.get('/auth-status', (req, res) => {
   if (req.session.access_token) {
@@ -145,19 +142,17 @@ app.get('/auth-status', (req, res) => {
   }
 });
 
-
 // Serve the main page
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html')); // Serve your HTML file
 });
-
 
 // Start the server and export the instance
 const server = app.listen(port, () => {
   console.log(`App running at http://localhost:${port}`);
 });
 
-// Serve profile.html in app.js
+// Serve profile.html
 app.get('/profile.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'profile.html'));
 });
@@ -170,7 +165,7 @@ mongoose.connect('mongodb+srv://myUser:myPassword@spaceify1.dt8a4.mongodb.net/?r
     .then(() => console.log('Connected to MongoDB'))
     .catch((err) => console.error('Failed to connect to MongoDB:', err));
 
-// Register.html route
+// Register a new user
 app.post('/register', async (req, res) => {
   const { username, password } = req.body;
 
@@ -191,6 +186,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
+// User login
 app.post('/spaceify-login', async (req, res) => {
   const { username, password } = req.body;
 
@@ -205,9 +201,9 @@ app.post('/spaceify-login', async (req, res) => {
       return res.status(401).json({ error: 'Invalid username or password.' });
     }
 
-    req.session.username = user.username; // store username in session
-    const accessToken = crypto.randomBytes(16).toString('hex'); // mock access token
-    req.session.access_token = accessToken; // store in session
+    req.session.username = user.username; // Store username in session
+    const accessToken = crypto.randomBytes(16).toString('hex'); // Mock access token
+    req.session.access_token = accessToken; // Store in session
 
     res.status(200).json({ message: 'Login successful.', username, accessToken });
   } catch (error) {
