@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Spaceify</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url('https://www.pixel4k.com/wp-content/uploads/2018/10/sky-full-of-stars-space-4k_1540139420.jpg') no-repeat center center;
+      background-size: cover;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      overflow: hidden;
+    }
+
+    .container {
+      text-align: center;
+      font-size: 50px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      opacity: 0;
+      animation: fadeIn 3s forwards, letterSpace 6s forwards, fadeOut 3s 9s forwards;
+    }
+
+    .container span {
+      display: inline-block;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    @keyframes letterSpace {
+      0% {
+        letter-spacing: 2px;
+      }
+      50% {
+        letter-spacing: 15px;
+      }
+      100% {
+        letter-spacing: 2px;
+      }
+    }
+
+    @keyframes fadeOut {
+      0% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="welcome-message">
+    <span>WELCOME TO SPACEIFY</span>
+  </div>
+
+</body>
+</html>
