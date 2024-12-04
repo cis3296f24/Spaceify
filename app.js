@@ -1,4 +1,3 @@
-// Import required modules
 const express = require('express');
 const multer = require("multer");
 const path = require('path');
@@ -10,7 +9,6 @@ const session = require('express-session');
 // Configure spaceify user database and friends feature
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
-// Define the schema for users, including a list of friends
 const UserSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
@@ -36,10 +34,8 @@ const upload = multer({ storage });
 const app = express();
 const port = 3000; // Define the port variable
 
-// Middleware for parsing JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
 app.use(express.static('public')); // Assuming your static files are in a 'public' directory
 app.use(session({
   secret: 'your-secret-key', // Change this to a secure key
@@ -55,18 +51,18 @@ app.use((req, res, next) => {
 
 // Helmet configuration with CSP
 app.use(
-    helmet({
-      contentSecurityPolicy: {
-        useDefaults: true,
-        directives: {
-          defaultSrc: ["'self'"],
-          scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`, 'https://d3js.org'],
-          styleSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`],
-          imgSrc: ["'self'", 'data:', 'https://i.scdn.co', 'https://www.pixel4k.com'],
-          connectSrc: ["'self'", 'https://api.spotify.com'],
-        },
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`, 'https://d3js.org'],
+        styleSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`],
+        imgSrc: ["'self'", 'data:', 'https://i.scdn.co', 'https://www.pixel4k.com'],
+        connectSrc: ["'self'", 'https://api.spotify.com'],
       },
-    })
+    },
+  })
 );
 
 // Load environment variables from the .env file
@@ -76,7 +72,6 @@ require('dotenv').config();
 const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
 const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
 const REDIRECT_URI = 'http://localhost:3000/callback';
-
 
 // Redirect to Spotify authorization page
 app.get('/login', (req, res) => {
@@ -104,7 +99,6 @@ app.get('/callback', async (req, res) => {
   };
 
   try {
-    // Request access token from Spotify
     const response = await axios.post(authOptions.url, new URLSearchParams(authOptions.form), { headers: authOptions.headers });
     const accessToken = response.data.access_token;
     req.session.access_token = accessToken; // Store the access token in session
@@ -136,7 +130,7 @@ app.get('/top-tracks', async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch top tracks' });
   }
 });
-// Check authentication status
+
 app.get('/auth-status', (req, res) => {
   if (req.session.access_token) {
     res.json({ authenticated: true });
@@ -167,8 +161,8 @@ mongoose.connect('mongodb+srv://myUser:myPassword@spaceify1.dt8a4.mongodb.net/?r
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
-    .then(() => console.log('Connected to MongoDB'))
-    .catch((err) => console.error('Failed to connect to MongoDB:', err));
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((err) => console.error('Failed to connect to MongoDB:', err));
 
 // Register.html route
 app.post('/register', async (req, res) => {
@@ -221,14 +215,14 @@ app.get('/friends', async (req, res) => {
   const username = req.query.username;
 
   try {
-    const user = await User.findOne({ username });
-    if (!user) {
-      return res.status(404).json({ error: 'User not found.' });
-    }
-    res.json({ friends: user.friends });
+      const user = await User.findOne({ username });
+      if (!user) {
+          return res.status(404).json({ error: 'User not found.' });
+      }
+      res.json({ friends: user.friends });
   } catch (error) {
-    console.error('Error fetching friends:', error);
-    res.status(500).json({ error: 'Internal server error.' });
+      console.error('Error fetching friends:', error);
+      res.status(500).json({ error: 'Internal server error.' });
   }
 });
 
@@ -275,8 +269,8 @@ app.post("/upload-screenshot", upload.single("screenshot"), async (req, res) => 
 
     // Update user's screenshot and upload date
     await User.updateOne(
-        { username },
-        { screenshot: filePath, uploadDate }
+      { username },
+      { screenshot: filePath, uploadDate }
     );
 
     res.json({ screenshot: filePath, uploadDate });
