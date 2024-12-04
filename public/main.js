@@ -1,37 +1,31 @@
-// Adds a glowing effect to the cursor when the mouse is moved
-// NOTE: This functionality is not yet fully implemented
+//For cursor glow -> not working yet!
 document.addEventListener('mousemove', function(e) {
-    const cursor = document.createElement('div'); // Create a div element to act as the cursor glow
-    cursor.classList.add('cursor-glow'); // Add a CSS class for styling
-    cursor.style.left = e.pageX + 'px'; // Position the glow at the cursor's X-coordinate
-    cursor.style.top = e.pageY + 'px'; // Position the glow at the cursor's Y-coordinate
-    document.body.appendChild(cursor); // Add the glow element to the DOM
+    const cursor = document.createElement('div');
+    cursor.classList.add('cursor-glow');
+    cursor.style.left = e.pageX + 'px';
+    cursor.style.top = e.pageY + 'px';
+    document.body.appendChild(cursor);
 
-    // Remove the glow element after 500 milliseconds
     setTimeout(() => {
         cursor.remove();
-    }, 500);
+    }, 500); // Adjust duration as needed
 });
 
-// Checks if the user is authenticated by verifying the access token
 async function checkAuthentication() {
     try {
-        const accessToken = sessionStorage.getItem("access_token"); // Retrieve the access token from sessionStorage
+        const accessToken = sessionStorage.getItem("access_token");
 
-        // Redirect to login if access token is missing
         if (!accessToken) {
             alert("Access token missing. Please log in.");
             window.location.href = "/login";
             return;
         }
-
-        // Verify authentication status with the server
+        
         const response = await fetch("/auth-status", {
             headers: { Authorization: `Bearer ${accessToken}` },
         });
         const data = await response.json();
 
-        // Load top tracks if authenticated, otherwise redirect to login
         if (data.authenticated) {
             loadTopTracks();
         } else {
@@ -43,54 +37,52 @@ async function checkAuthentication() {
     }
 }
 
-// Fetches the top tracks of the authenticated user
 async function loadTopTracks() {
     try {
-        const response = await fetch('/top-tracks'); // Request top tracks from the server
-        const tracks = await response.json(); // Parse the response as JSON
-        displayTracks(tracks); // Display the fetched tracks
+        const response = await fetch('/top-tracks');
+        const tracks = await response.json();
+        displayTracks(tracks);
     } catch (error) {
         console.error("Error loading top tracks:", error);
     }
 }
 
-// Initializes the page on load, saving tokens and setting styles
+// Display Title on the page and save access token to session storage for redirection purposes
 document.addEventListener("DOMContentLoaded", function() {
-    const username = localStorage.getItem('username') || 'Guest'; // Default to 'Guest' if username is not set
-    const accessToken = new URLSearchParams(window.location.search).get('access_token'); // Extract access token from URL
+    const username = localStorage.getItem('username') || 'Guest';
+    const accessToken = new URLSearchParams(window.location.search).get('access_token');
 
-    // Save the access token and clean the URL
     if (accessToken) {
-        sessionStorage.setItem('access_token', accessToken); // Store the token
-        const newUrl = window.location.origin + window.location.pathname; // Construct the new URL without query parameters
-        window.history.replaceState({}, document.title, newUrl); // Update the browser's history
+        // Save access token in sessionStorage
+        sessionStorage.setItem('access_token', accessToken);
+
+        // Clean the URL by removing the access token parameter
+        const newUrl = window.location.origin + window.location.pathname;
+        window.history.replaceState({}, document.title, newUrl);
+
         console.log('Access token saved to sessionStorage and URL cleaned.');
     } else {
         console.log('No access token found in URL.');
     }
-
-    // Set background properties
+    
     document.body.style.backgroundImage = "url('/sky-full-of-stars-space-4k_1540139420.jpg')";
     document.body.style.backgroundSize = "cover";
     document.body.style.backgroundPosition = "center center";
     document.body.style.backgroundRepeat = "no-repeat";
 
-    // Style the title, text, and forms dynamically
+    // Change the font color for the title
     const titleElement = document.querySelector('h1');
     if (titleElement) {
         titleElement.style.color = 'white';
         titleElement.style.textAlign = 'center';
         titleElement.style.fontFamily = "'Arial', sans-serif";
     }
-
-    // Apply similar styling to paragraph and forms
     const text = document.querySelector('p');
     if (text) {
         text.style.color = 'white';
         text.style.textAlign = 'center';
         text.style.fontFamily = "'Arial', sans-serif";
     }
-
     const loginForm = document.querySelector('form');
     if (loginForm) {
         loginForm.style.color = 'white';
@@ -101,41 +93,176 @@ document.addEventListener("DOMContentLoaded", function() {
         loginForm.style.padding = '20px';
         loginForm.style.marginTop = '50px';
         loginForm.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.3)';
+        //loginForm.style.width = '500px';
+    }
+    const spinner = document.getElementById('spinner');
+    if (spinner) {
+        spinner.style.color = 'white'; // Change spinner font color
+        spinner.style.textAlign = 'center';
+        spinner.style.fontFamily = "'Arial', sans-serif";
+    }
+    const errorMessage = document.getElementById('error-message');
+    if (errorMessage) {
+        errorMessage.style.color = 'white'; // Change error message font color
+        errorMessage.style.textAlign = 'center';
+        errorMessage.style.fontFamily = "'Arial', sans-serif";
     }
 
-    checkAuthentication(); // Initiate the authentication check
-    fetchTracks(); // Fetch the tracks data for visualization
+    // Profile page functionality
+    if (window.location.pathname.endsWith('profile.html')) {
+        document.getElementById('username-display').textContent = username;
+        fetchFriends(username);
+
+        const friendInput = document.getElementById("friend-input");
+        const manageFriendButton = document.getElementById("manage-friend-button");
+
+        // Handle Add/Remove Friend
+        manageFriendButton.addEventListener("click", async () => {
+            const friendUsername = friendInput.value.trim();
+    
+            if (!friendUsername) {
+            alert("Please enter a username.");
+            return;
+            }
+    
+            try {
+            const response = await fetch("/friends/manage", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                username: localStorage.getItem("username"), // Current logged-in user
+                friendUsername,
+                }),
+            });
+    
+            const data = await response.json();
+    
+            if (response.ok) {
+                alert(data.message);
+                fetchFriends(localStorage.getItem("username")); // Refresh the friends list
+            } else {
+                alert(data.error || "Failed to manage friend.");
+            }
+            } catch (error) {
+                console.error("Error managing friend:", error);
+                alert("An error occurred.");
+            }
+        });
+  
+        // For results screenshot upload functionality
+        const uploadButton = document.getElementById("upload-screenshot-button");
+        const screenshotInput = document.getElementById("screenshot-input");
+        const screenshotImg = document.getElementById("screenshot");
+        const uploadDateText = document.getElementById("upload-date");
+        uploadButton.addEventListener("click", () => {
+            screenshotInput.click();
+        });
+        screenshotInput.addEventListener("change", async () => {
+            const file = screenshotInput.files[0];
+            if (file) {
+            const formData = new FormData();
+            formData.append("screenshot", file);
+    
+            try {
+                const response = await fetch("/upload-screenshot", {
+                method: "POST",
+                body: formData,
+                });
+    
+                const data = await response.json();
+                if (response.ok) {
+                screenshotImg.src = data.screenshot;
+                uploadDateText.textContent = `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`;
+                } else {
+                alert(data.error || "Failed to upload screenshot.");
+                }
+            } catch (error) {
+                console.error("Error uploading screenshot:", error);
+                alert("An error occurred while uploading your screenshot.");
+            }
+            }
+        });
+        async function fetchUserProfile() {
+            try {
+            const response = await fetch(`/profile-data?username=${localStorage.getItem("username")}`);
+            const data = await response.json();
+    
+            if (response.ok) {
+                screenshotImg.src = data.screenshot || "placeholder.jpg";
+                uploadDateText.textContent = data.uploadDate
+                ? `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`
+                : "(No results uploaded yet)";
+            } else {
+                console.error("Error fetching user profile:", data.error);
+            }
+            } catch (error) {
+            console.error("Error fetching user profile:", error);
+            }
+        }
+        fetchUserProfile();
+    }
+
+    // Friend profile functionality
+    if (window.location.pathname.endsWith("friend-profile.html")) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const friendUsername = urlParams.get("username");
+
+        const friendUsernameElement = document.getElementById("friend-username");
+        const friendScreenshotElement = document.getElementById("friend-screenshot");
+        const friendUploadDateElement = document.getElementById("friend-upload-date");
+
+        async function fetchFriendProfile() {
+        try {
+            const response = await fetch(`/profile-data?username=${friendUsername}`);
+            const data = await response.json();
+
+            if (response.ok) {
+            friendUsernameElement.textContent = data.username;
+            friendScreenshotElement.src = data.screenshot || "placeholder.jpg";
+            friendUploadDateElement.textContent = data.uploadDate
+                ? `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`
+                : "No screenshot uploaded yet.";
+            } else {
+            console.error("Error fetching friend profile:", data.error);
+            }
+        } catch (error) {
+            console.error("Error fetching friend profile:", error);
+        }
+        }
+
+        fetchFriendProfile();
+    }
+
+    checkAuthentication();
+    fetchTracks();
 });
 
-// Fetches and renders track data as planets with additional artist details
 async function fetchTracks() {
-    const accessToken = sessionStorage.getItem('access_token'); // Retrieve the token for authorization
+   const accessToken = sessionStorage.getItem('access_token');
     const spinner = document.getElementById('spinner');
 
-    // Handle missing access token
     if (!accessToken) {
         document.getElementById('error-message').innerText = 'Error: Access token not found in the URL.';
         return;
     }
 
     try {
-        spinner.style.display = 'block'; // Display a loading spinner
+        spinner.style.display = 'block';
         const response = await fetch("/top-tracks", {
             headers: { Authorization: `Bearer ${accessToken}` },
         });
 
-        // Handle unsuccessful responses
         if (!response.ok) {
             const errorData = await response.json();
             document.getElementById('error-message').innerText = `Error: ${errorData.error || 'An unknown error occurred.'}`;
             throw new Error(`Network response was not ok: ${response.statusText}`);
         }
 
-        const trackData = await response.json(); // Parse the track data
+        const trackData = await response.json();
         console.log('Fetched track data:', trackData);
 
         if (trackData && trackData.length) {
-            renderTracks(trackData); // Visualize the track data
+            renderTracks(trackData);
         } else {
             console.error('No tracks found in the response:', trackData);
             document.getElementById('error-message').innerText = 'No tracks found.';
@@ -144,11 +271,9 @@ async function fetchTracks() {
         console.error('Fetch error:', error);
         document.getElementById('error-message').innerText = 'An error occurred while fetching track data. Please try again later.';
     } finally {
-        spinner.style.display = 'none'; // Hide the spinner
+        spinner.style.display = 'none';
     }
 }
-
-// Renders fetched track data into a visual chart with D3.js
 
 function renderTracks(data) {
     const accessToken = sessionStorage.getItem("access_token");
@@ -216,6 +341,7 @@ function renderTracks(data) {
 
     let planetPosition = 1;
     let textPosition = 1;
+
     svg.selectAll("circle")
         .data(topArtists)
         .enter()
@@ -234,31 +360,31 @@ function renderTracks(data) {
             //Choose image for planet
             switch(i) {
                 case 0:
-                    planet = "sun.jpg"
+                    planet = "sun2.jpg"
                     break;
                 case 1:
-                    planet = "mercury.jpg"
+                    planet = "mercury2.jpg"
                     break;
                 case 2:
-                    planet = "venus.jpg"
+                    planet = "venus2.jpg"
                     break;
                 case 3:
-                    planet = "earth.jpg"
+                    planet = "earth2.jpg"
                     break;
                 case 4:
-                    planet = "mars.jpg"
+                    planet = "mars2.jpg"
                     break;
                 case 5:
-                    planet = "jupiter.jpg"
+                    planet = "jupiter2.jpg"
                     break;
                 case 6:
                     planet = "saturn.jpg"
                     break;
                 case 7:
-                    planet = "uranus.jpg"
+                    planet = "uranus2.jpg"
                     break;
                 case 8:
-                    planet = "neptune.jpg"
+                    planet = "neptune2.jpg"
                     break;
                 case 9:
                     planet = "pluto.jpg"
@@ -332,6 +458,69 @@ function renderTracks(data) {
         })
         .on("mouseout", () => {
             tooltip.style("display", "none");
+        })
+        .on("click", (event, d) => {
+            // Open a new window with the track list for the clicked artist
+            const newWindow = window.open("", "_blank", "width=600,height=400");
+            newWindow.document.write(`
+                <html>
+                <head>
+                    <title>${d.key} - Track List</title>
+                    <style nonce="abc123">
+                        body {
+                            font-family: monospace;
+                            background-color: rgba(0, 0, 100, 1);
+                            color: white;
+                            margin: 0;
+                            padding: 20px;
+                        }
+                        h1 {
+                            text-align: center;
+                        }
+                        ul {
+                            list-style-type: none;
+                            padding: 0;
+                        }
+                        li {
+                            margin: 5px 0;
+                            padding: 5px;
+                            background: rgba(255, 255, 255, 0.1);
+                            border-radius: 5px;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <h1>${d.key} - Track List</h1>
+                    <ul id="track-list"></ul>
+                    <script nonce="abc123">
+                        async function fetchTracks() {
+                            console.log('Fetching tracks...');
+                            const response = await fetch(
+                                'https://api.spotify.com/v1/artists/${d.id}/top-tracks?market=US',
+                                { headers: { Authorization: 'Bearer ${accessToken}' } }
+                            );
+                            if (response.ok) {
+                                const data = await response.json();
+                                const list = document.getElementById('track-list');
+                                data.tracks.forEach(track => {
+                                    const li = document.createElement('li');
+                                    li.textContent = track.name;
+                                    list.appendChild(li);
+                                });
+                            } else {
+                                console.error('Failed to fetch tracks');
+                            }
+                        }
+                        fetchTracks();
+                    </script>
+                </body>
+                </html>
+            `);
+    
+            /*newWindow.onload = async () => {
+                console.log('New window loaded');
+                await fetchTracksForArtist(d.id, newWindow);
+            };*/
         });
 
     svg.selectAll(".artist-label")
@@ -342,8 +531,60 @@ function renderTracks(data) {
         .attr("x", d => xScale(textPosition++ * 10))
         .attr("y", d => yScale(d.value.avgDuration) + 5)
         .attr("text-anchor", "middle")
+        .attr('fill', 'white')
+        .attr('stroke', 'black')
+        .attr('stroke-width','1px')
+        .attr('font-size', '15px')
+        .attr('font-family','Impact')
+        .attr('font-weight','bold')
         .text(d => d.key);
 }
+
+async function fetchTracksForArtist(artistId, newWindow) {
+    console.log('fetchTracksForArtist called with artistId:', artistId);
+    try {
+        const accessToken = sessionStorage.getItem("access_token");
+        if (!accessToken) {
+            throw new Error("Access token is missing or expired.");
+        }
+
+        // Fetch top tracks from Spotify API
+        const response = await fetch(`https://api.spotify.com/v1/artists/${artistId}/top-tracks?market=US`, {
+            headers: {
+                'Authorization': `Bearer ${accessToken}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Failed to fetch tracks for the artist');
+        }
+
+        const trackData = await response.json();
+        const trackList = trackData.tracks;
+
+        // Ensure the DOM is loaded in the new window before appending
+        newWindow.onload = () => {
+            const trackListElement = newWindow.document.getElementById('track-list');
+
+            if (!trackListElement) {
+                throw new Error("Track list element not found in the new window.");
+            }
+
+            // Add track names to the new window's track list
+            trackList.forEach(track => {
+                const trackItem = newWindow.document.createElement('li');
+                trackItem.textContent = track.name;
+                trackListElement.appendChild(trackItem);
+            });
+        };
+    } catch (error) {
+        console.error('Error fetching tracks for artist:', error);
+        newWindow.document.body.innerHTML = `
+            <p style="color: white;">Error loading tracks for this artist. Please try again later.</p>`;
+    }
+}
+
+console.log("Track Data:", trackData);
 
 function displayTracks(tracks) {
     const trackList = document.getElementById('track-list');
@@ -490,6 +731,9 @@ async function addFriend(username, friendUsername) {
     } catch (error) {
         console.error('Error adding friend:', error);
     }
+
+  }
+})
 }
 
 async function removeFriend(username, friendUsername) {
