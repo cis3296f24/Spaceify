@@ -4,9 +4,91 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
+<<<<<<< Updated upstream
     <list default="true" id="8871c20a-dd66-40e4-9f47-137f0b9a01fb" name="Changes" comment="Update files">
+=======
+    <list default="true" id="8871c20a-dd66-40e4-9f47-137f0b9a01fb" name="Changes" comment="commit before pull">
+>>>>>>> Stashed changes
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/compiler/compiler.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/compiler/compiler.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/compiler/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/compiler/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/errors/errors.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/errors/errors.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/errors/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/errors/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/license" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/readme.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/system/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/system/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/system/system.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/system/system.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/typebox.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/typebox.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/cast.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/cast.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/check.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/check.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/clone.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/clone.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/convert.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/convert.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/create.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/create.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/delta.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/delta.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/equal.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/equal.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/hash.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/hash.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/is.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/is.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/mutate.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/mutate.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/pointer.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/pointer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/value.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/@sinclair/typebox/value/value.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bcrypt/lib/binding/napi-v3/bcrypt_lib.node" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bcrypt/lib/binding/napi-v3/bcrypt_lib.node" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/char-regex/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/char-regex/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/char-regex/index.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/char-regex/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/char-regex/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/cjs-module-lexer/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/cjs-module-lexer/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/cjs-module-lexer/dist/lexer-external.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/cjs-module-lexer/dist/lexer-external.mjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/cjs-module-lexer/dist/lexer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/cjs-module-lexer/dist/lexer.mjs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/cjs-module-lexer/lexer.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/cjs-module-lexer/lexer.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/cjs-module-lexer/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/color-name/LICENSE" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/color-name/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/color-name/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/color-name/package.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/dotenv/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/dotenv/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/dotenv/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/dotenv/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/dotenv/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/dotenv/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/jest-html-reporter/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/jest-html-reporter/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/xmlbuilder/.nycrc" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/xmlbuilder/.nycrc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/xmlbuilder/CHANGELOG.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/xmlbuilder/CHANGELOG.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/xmlbuilder/LICENSE" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/xmlbuilder/LICENSE" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/xmlbuilder/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/xmlbuilder/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/xmlbuilder/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/xmlbuilder/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/xmlbuilder/perf/basic/escaping.coffee" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/xmlbuilder/perf/basic/escaping.coffee" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/xmlbuilder/perf/basic/object.coffee" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/xmlbuilder/perf/basic/object.coffee" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/xmlbuilder/perf/index.coffee" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/xmlbuilder/perf/index.coffee" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/xmlbuilder/typings/index.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/xmlbuilder/typings/index.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,12 +131,23 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+<<<<<<< Updated upstream
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "ethan3",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Jennifer Vaughn/Spaceify",
+=======
+    "Node.js.app.js.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/nathaliavalli/Development/Spaceify",
+>>>>>>> Stashed changes
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -64,6 +157,14 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+<<<<<<< Updated upstream
+=======
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public" />
+    </key>
+  </component>
+>>>>>>> Stashed changes
   <component name="RunManager">
     <configuration default="true" type="docs" factoryName="Docutils task">
       <option name="ENV_FILES" value="" />
@@ -111,6 +212,10 @@
       </method>
     </configuration>
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+<<<<<<< Updated upstream
+=======
+      <option name="ENV_FILES" value="" />
+>>>>>>> Stashed changes
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <envs>
@@ -133,6 +238,10 @@
       <method v="2" />
     </configuration>
     <configuration default="true" type="Python.FlaskServer">
+<<<<<<< Updated upstream
+=======
+      <option name="ENV_FILES" value="" />
+>>>>>>> Stashed changes
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
@@ -146,6 +255,10 @@
       <method v="2" />
     </configuration>
     <configuration default="true" type="Tox" factoryName="Tox">
+<<<<<<< Updated upstream
+=======
+      <option name="ENV_FILES" value="" />
+>>>>>>> Stashed changes
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
       <option name="SDK_HOME" value="" />
@@ -160,8 +273,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
-        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
+        <option value="bundled-jdk-9823dce3aa75-fdfe4dae3a2d-intellij.indexing.shared.core-IU-243.21565.193" />
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-IU-243.21565.193" />
       </set>
     </attachedChunks>
   </component>
@@ -184,6 +297,12 @@
       <workItem from="1732145547725" duration="249000" />
       <workItem from="1732145820526" duration="152000" />
       <workItem from="1732292254438" duration="2313000" />
+<<<<<<< Updated upstream
+=======
+      <workItem from="1733267210763" duration="465000" />
+      <workItem from="1733268329329" duration="6454000" />
+      <workItem from="1733279336881" duration="463000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>

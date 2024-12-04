@@ -6,6 +6,7 @@ const crypto = require('crypto');
 const axios = require('axios');
 const session = require('express-session');
 
+
 // Configure spaceify user database and friends feature
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
@@ -63,9 +64,11 @@ app.use(
   })
 );
 
+require('dotenv').config();
 
-const CLIENT_ID = '89cd82b2bc114cde888005822373c259'; // Your Spotify client ID
-const CLIENT_SECRET = 'c7fdc87c8d12446d89080c9691a05ea9'; // Your Spotify client secret
+
+const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID; // Your Spotify client ID
+const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET; // Your Spotify client secret
 const REDIRECT_URI = 'http://localhost:3000/callback';
 
 
