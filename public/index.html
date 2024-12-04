@@ -9,7 +9,7 @@
     body {
       margin: 0;
       padding: 0;
-      font-family: "Arial Black", sans-serif;
+      font-family: 'Share Tech Mono', monospace;
       letter-spacing: 0.1em;
       background: url('https://www.pixel4k.com/wp-content/uploads/2018/10/sky-full-of-stars-space-4k_1540139420.jpg') no-repeat center center;
       background-size: cover;
@@ -33,6 +33,7 @@
       font-size: 15px;
       fill: #fff;
     }
+<<<<<<< Updated upstream
   </style>
 </head>
 <body>
@@ -88,5 +89,46 @@
           .text(d => d.artist);
 
 </script>
+=======
+
+    #error-message {
+      text-align: center;
+      color: #ff5555;
+      font-size: 18px;
+      margin: 20px;
+    }
+
+    #spinner {
+      text-align: center;
+      font-size: 18px;
+      color: #fff;
+      display: none;
+    }
+
+    #track-list {
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Spotify Top Artists and Tracks List</h1>
+
+<div id="chart"></div>
+<div id="error-message"></div>
+<div id="spinner">Loading...</div>
+<div id="track-list"></div>
+
+<audio controls autoplay loop aria-label="Background space music">
+  <source src="space-158081.mp3" type="audio/mpeg">
+  Your browser does not support the audio element.
+</audio>
+
+<footer style="text-align: center; color: #fff; margin-top: 20px;">
+  Data powered by Spotify API. Visualization by Spaceify.
+</footer>
+
+>>>>>>> Stashed changes
 </body>
 </html>
