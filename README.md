@@ -24,15 +24,36 @@ To do so, go to your Spotify for Developers Dashboard and create your applicatio
 
 Once you have created your app, change the client_id and client_secret on .env file to your own Spotify Developer credentials.
 
+   to create a developers account:
+
+   -after cliking the link, you will need to log in or create account (top right corner)
+   -Click on your name and go to dashboard
+   <img width="1464" alt="Screenshot 2024-12-09 at 9 46 29 AM" src="https://github.com/user-attachments/assets/f282e27e-071f-403c-9c6e-2f5204de9d4d">
+
+   -On that page you will click "CREATE APP" (as you see our page already have our application)
+   <img width="1464" alt="Screenshot 2024-12-09 at 9 46 56 AM" src="https://github.com/user-attachments/assets/c8bfb5b8-e012-4673-892f-fcb615ea823c">
+
+   -While you are creating the new app you will need to fill out some information: BUT THE MOST IMPORTANT ONE IS TO FILL OUT "Redirect URIs" WITH:
+   ```bash
+   http://localhost:3000/callback
+   ```
+<img width="1464" alt="Screenshot 2024-12-09 at 9 48 03 AM" src="https://github.com/user-attachments/assets/aa231fb2-18ab-4193-81b5-df683542dbc2">
+
+-once you done that Spotify will generate a client ID and Secret ID which you will use on the .env file
+<img width="1464" alt="Screenshot 2024-12-09 at 9 48 37 AM" src="https://github.com/user-attachments/assets/8edc08b4-3ea5-49db-8d17-39457b553efb">
+
+
 OR 
 
 contact us to add your email to our dashboard (if you prefer that skip step 3)
 
 ## How to Run
 
+
 To run the application locally, follow these steps:
 
 1. Clone the repository:
+
 
    ```bash
    git clone (https://github.com/cis3296f24/Spaceify.git)
