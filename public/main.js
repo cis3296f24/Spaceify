@@ -1,16 +1,3 @@
-//For cursor glow -> not working yet!
-// document.addEventListener('mousemove', function(e) {
-//     const cursor = document.createElement('div');
-//     cursor.classList.add('cursor-glow');
-//     cursor.style.left = e.pageX + 'px';
-//     cursor.style.top = e.pageY + 'px';
-//     document.body.appendChild(cursor);
-//
-//     setTimeout(() => {
-//         cursor.remove();
-//     }, 500); // Adjust duration as needed
-// });
-
 // Define trackData
 let trackData = [];
 
@@ -98,7 +85,6 @@ document.addEventListener("DOMContentLoaded", function() {
         loginForm.style.padding = '20px';
         loginForm.style.marginTop = '50px';
         loginForm.style.boxShadow = '0px 4px 6px rgba(0, 0, 0, 0.3)';
-        //loginForm.style.width = '500px';
     }
     const spinner = document.getElementById('spinner');
     if (spinner) {
@@ -126,17 +112,17 @@ document.addEventListener("DOMContentLoaded", function() {
             const friendUsername = friendInput.value.trim();
     
             if (!friendUsername) {
-            alert("Please enter a username.");
-            return;
+                alert("Please enter a username.");
+                return;
             }
     
             try {
-            const response = await fetch("/friends/manage", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                username: localStorage.getItem("username"), // Current logged-in user
-                friendUsername,
+                const response = await fetch("/friends/manage", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                    username: localStorage.getItem("username"), // Current logged-in user
+                    friendUsername,
                 }),
             });
     
@@ -159,34 +145,39 @@ document.addEventListener("DOMContentLoaded", function() {
         const screenshotInput = document.getElementById("screenshot-input");
         const screenshotImg = document.getElementById("screenshot");
         const uploadDateText = document.getElementById("upload-date");
+
         uploadButton.addEventListener("click", () => {
             screenshotInput.click();
         });
         screenshotInput.addEventListener("change", async () => {
             const file = screenshotInput.files[0];
             if (file) {
-            const formData = new FormData();
-            formData.append("screenshot", file);
-    
-            try {
-                const response = await fetch("/upload-screenshot", {
-                method: "POST",
-                body: formData,
-                });
-    
-                const data = await response.json();
-                if (response.ok) {
-                screenshotImg.src = data.screenshot;
-                uploadDateText.textContent = `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`;
-                } else {
-                alert(data.error || "Failed to upload screenshot.");
+                const formData = new FormData();
+                formData.append("screenshot", file);
+        
+                try {
+                    const response = await fetch("/upload-screenshot", {
+                        method: "POST",
+                        body: formData,
+                        headers: {
+                            Authorization: `Bearer ${sessionStorage.getItem("access_token")}`,
+                        },
+                    });
+        
+                    const data = await response.json();
+                    if (response.ok) {
+                        screenshotImg.src = data.screenshot;
+                        uploadDateText.textContent = `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`;
+                    } else {
+                        alert(data.error || "Failed to upload screenshot.");
+                    }
+                } catch (error) {
+                    console.error("Error uploading screenshot:", error);
+                    alert("An error occurred while uploading your screenshot.");
                 }
-            } catch (error) {
-                console.error("Error uploading screenshot:", error);
-                alert("An error occurred while uploading your screenshot.");
-            }
             }
         });
+
         async function fetchUserProfile() {
             try {
             const response = await fetch(`/profile-data?username=${localStorage.getItem("username")}`);
@@ -210,29 +201,41 @@ document.addEventListener("DOMContentLoaded", function() {
     // Friend profile functionality
     if (window.location.pathname.endsWith("friend-profile.html")) {
         const urlParams = new URLSearchParams(window.location.search);
-        const friendUsername = urlParams.get("username");
+        /*const friendUsername = urlParams.get("username");
 
         const friendUsernameElement = document.getElementById("friend-username");
         const friendScreenshotElement = document.getElementById("friend-screenshot");
-        const friendUploadDateElement = document.getElementById("friend-upload-date");
+        const friendUploadDateElement = document.getElementById("friend-upload-date");*/
 
         async function fetchFriendProfile() {
-        try {
-            const response = await fetch(`/profile-data?username=${friendUsername}`);
-            const data = await response.json();
+            const urlParams = new URLSearchParams(window.location.search);
+            const friendUsername = urlParams.get("username");
 
-            if (response.ok) {
-            friendUsernameElement.textContent = data.username;
-            friendScreenshotElement.src = data.screenshot || "placeholder.jpg";
-            friendUploadDateElement.textContent = data.uploadDate
-                ? `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`
-                : "No screenshot uploaded yet.";
-            } else {
-            console.error("Error fetching friend profile:", data.error);
+            if (!friendUsername) {
+                console.error("No username found in the URL.");
+                document.getElementById("friend-username").textContent = "No friend selected.";
+                return;
             }
-        } catch (error) {
-            console.error("Error fetching friend profile:", error);
-        }
+
+            try {
+                const response = await fetch(`/profile-data?username=${friendUsername}`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    document.getElementById("friend-username").textContent = data.username;
+                    
+                    const friendScreenshotElement = document.getElementById("friend-screenshot");
+                    friendScreenshotElement.src = data.screenshot || "placeholder.jpg";
+                    const friendUploadDateElement = document.getElementById("friend-upload-date");
+                    friendUploadDateElement.textContent = data.uploadDate
+                        ? `Uploaded on: ${new Date(data.uploadDate).toLocaleDateString()}`
+                        : "(No results uploaded yet)";
+                } else {
+                    console.error("Error fetching friend profile:", data.error);
+                }
+            } catch (error) {
+                console.error("Error fetching friend profile:", error);
+            }
         }
 
         fetchFriendProfile();
@@ -240,7 +243,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     checkAuthentication();
     fetchTracks();
-});
+}); //DOMContentLoaded ends
 
 async function fetchTracks() {
    const accessToken = sessionStorage.getItem('access_token');
@@ -642,12 +645,9 @@ module.exports = {
     goToHome
 };
 
-// Functionality for Login and redirection to profile page
-document.addEventListener("DOMContentLoaded", function() {
     // Functionality for Login and redirection to profile page
     document.getElementById("login-form").addEventListener("submit", async (event) => {
         event.preventDefault();
-
 
         const username = document.getElementById("user").value;
         const password = document.getElementById("pass").value;
@@ -663,6 +663,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const result = await response.json();
 
             if (response.ok) {
+                console.log("Login form submitted.");
                 localStorage.setItem('username', result.username); // Store the username
                 sessionStorage.setItem('access_token', result.accessToken); // Store the access token
                 window.location.href = `profile.html?access_token=${result.accessToken}`; // Redirect to profile page
@@ -675,28 +676,6 @@ document.addEventListener("DOMContentLoaded", function() {
             document.getElementById('error-message').textContent = 'An error occurred. Please try again.';
         }
     });
-});
-    /*async function fetchFriends(username) {
-      const friendsList = document.getElementById("friends-list");
-      friendsList.innerHTML = "";
-
-      // Fetch friends and render their profiles
-      fetch(`/friends?username=${username}`)
-          .then((response) => response.json())
-          .then((data) => {
-          data.friends.forEach((friend) => {
-              const friendItem = document.createElement("li");
-              friendItem.textContent = friend;
-
-              // Clicking on a friend redirects to their profile
-              friendItem.addEventListener("click", () => {
-              window.location.href = `/friend-profile.html?username=${friend}`;
-              });
-
-              friendsList.appendChild(friendItem);
-          });
-          });
-      }*/
 
     // Fetch and Display Friends
     async function fetchFriends(username) {
@@ -727,50 +706,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    /*
-async function addFriend(username, friendUsername) {
-    try {
-        const response = await fetch('/friends/add', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, friendUsername }),
-        });
-        const data = await response.json();
-
-        if (response.ok) {
-            alert('Friend added successfully!');
-            fetchFriends(username);
-        } else {
-            alert(data.error || 'Error adding friend.');
-        }
-    } catch (error) {
-        console.error('Error adding friend:', error);
-    }
-
-  }
-})
-}
-
-async function removeFriend(username, friendUsername) {
-    try {
-        const response = await fetch('/friends/remove', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, friendUsername }),
-        });
-        const data = await response.json();
-
-        if (response.ok) {
-            alert('Friend removed successfully!');
-            fetchFriends(username);
-        } else {
-            alert(data.error || 'Error removing friend.');
-        }
-    } catch (error) {
-        console.error('Error removing friend:', error);
-    }
-}
-    */
     function goToHome() {
         window.history.back();
     }

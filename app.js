@@ -10,13 +10,13 @@ const session = require('express-session');
 // Configure spaceify user database and friends feature
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
-// Define the User schema and model
+// Define the User schema
 const UserSchema = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   friends: { type: [String], default: [] },
-  screenshot: { type: String }, // Path to the uploaded screenshot
-  uploadDate: { type: Date } // Date the screenshot was uploaded
+  screenshot: { type: String }, //path to the uploaded screenshot
+  uploadDate: { type: Date } //date the screenshot was uploaded
 });
 const User = mongoose.model('User', UserSchema);
 module.exports = User;
@@ -152,7 +152,7 @@ app.get('/auth-status', (req, res) => {
 
 // Serve the main page
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html')); // Serve your HTML file
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 
@@ -161,7 +161,7 @@ const server = app.listen(port, () => {
   console.log(`App running at http://localhost:${port}`);
 });
 
-// Serve profile.html in app.js
+// Serve profile.html
 app.get('/profile.html', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'profile.html'));
 });
@@ -195,7 +195,7 @@ app.post('/register', async (req, res) => {
   }
 });
 
-// User login
+// Spaceify user login
 app.post('/spaceify-login', async (req, res) => {
   const { username, password } = req.body;
 
