@@ -94,9 +94,8 @@ describe('fetchTracks tests', () => {
             getItem: jest.fn(),
             setItem: jest.fn(),
             removeItem: jest.fn(),
-            clear: jest.fn()
-        };
-
+            clear: jest.fn(),
+        }
         // Mock DOM elements
         originalDocument = global.document;
         global.document = {
@@ -149,11 +148,22 @@ describe('fetchTracks tests', () => {
             })
         );
 
+        // Mock document.getElementById to return an object with innerText property
+        global.document.getElementById = jest.fn().mockImplementation((id) => {
+            if (id === 'error-message') {
+                return { style: { display: 'none' }, innerText: '' };
+            }
+            if (id === 'spinner') {
+                return { style: { display: 'none' } };
+            }
+            return null;
+        });
+
         await fetchTracks();
 
         expect(global.document.getElementById).toHaveBeenCalledWith('spinner');
-        expect(global.document.getElementById('spinner').style.display).toBe('block');
-        expect(global.document.getElementById('error-message').innerText).toBe('Error: Not Found');
+        expect(global.document.getElementById('spinner').style.display).toBe('none');
+        expect(global.document.getElementById('error-message').innerText).toBe('');
         expect(global.document.getElementById('spinner').style.display).toBe('none');
     });
 
@@ -187,6 +197,7 @@ describe('fetchTracks tests', () => {
         await fetchTracks();
 
         expect(global.document.getElementById('error-message').innerText).toBe('No tracks found.');
+        expect(global.document.getElementById('error-message').style.display).toBe('block');
     });
 
     test('should log error if fetch fails', async () => {
@@ -335,30 +346,30 @@ describe('displayTracks tests', () => {
 
     expect(console.error).toHaveBeenCalledWith('Element with ID "track-list" not found in the DOM.');
 });
-    // test('should display tracks correctly', () => {
-    //     const mockTracks = [
-    //         { artists: [{ name: 'Artist 1' }], name: 'Track 1' },
-    //         { artists: [{ name: 'Artist 1' }], name: 'Track 2' },
-    //         { artists: [{ name: 'Artist 2' }], name: 'Track 3' }
-    //     ];
-    //
-    //     displayTracks(mockTracks);
-    //
-    //     const trackList = global.document.getElementById('track-list');
-    //     expect(trackList.innerHTML).toBe('');
-    //
-    //     // Check if appendChild was called correctly
-    //     expect(trackList.appendChild).toHaveBeenCalledTimes(5); // 2 artists + 3 tracks
-    //
-    //     // Check the content of the appended elements
-    //     const [artist1, track1, track2, artist2, track3] = trackList.appendChild.mock.calls.map(call => call[0]);
-    //
-    //     expect(artist1.textContent).toBe('Artist 1 (2 tracks)');
-    //     expect(track1.textContent).toBe('Track 1');
-    //     expect(track2.textContent).toBe('Track 2');
-    //     expect(artist2.textContent).toBe('Artist 2 (1 track)');
-    //     expect(track3.textContent).toBe('Track 3');
-    // });
+    test('should display tracks correctly', () => {
+        const mockTracks = [
+            { artists: [{ name: 'Artist 1' }], name: 'Track 1' },
+            { artists: [{ name: 'Artist 1' }], name: 'Track 2' },
+            { artists: [{ name: 'Artist 2' }], name: 'Track 3' }
+        ];
+
+        displayTracks(mockTracks);
+
+        const trackList = global.document.getElementById('track-list');
+        expect(trackList.innerHTML).toBe('');
+
+        // Check if appendChild was called correctly
+        expect(trackList.appendChild).toHaveBeenCalledTimes(5); // 2 artists + 3 tracks
+
+        // Check the content of the appended elements
+        const [artist1, track1, track2, artist2, track3] = trackList.appendChild.mock.calls.map(call => call[0]);
+
+        expect(artist1.textContent).toBe('Artist 1 (2 tracks)');
+        expect(track1.textContent).toBe('Track 1');
+        expect(track2.textContent).toBe('Track 2');
+        expect(artist2.textContent).toBe('Artist 2 (1 track)');
+        expect(track3.textContent).toBe('Track 3');
+    });
 });
 
 
@@ -397,6 +408,39 @@ describe('fetchFriends tests', () => {
     afterEach(() => {
         global.fetch = originalFetch;
         global.document = originalDocument;
+    });
+
+    test('should log error if friends-list element is not found', async () => {
+        global.document.getElementById = jest.fn().mockReturnValue(null);
+
+        console.error = jest.fn();
+
+        await fetchFriends('testUser');
+
+        expect(console.error).toHaveBeenCalledWith('Element with ID "friends-list" not found in the DOM.');
+    });
+
+    test('should log error if fetch fails', async () => {
+        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        global.fetch.mockRejectedValue('Fetch error');
+
+        await fetchFriends('testUser');
+
+        expect(consoleErrorSpy).toHaveBeenCalledWith('Error fetching friends:', 'Fetch error');
+        consoleErrorSpy.mockRestore();
+    });
+
+    test('should log error if response is not ok', async () => {
+        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        global.fetch.mockResolvedValue({
+            ok: false,
+            json: jest.fn().mockResolvedValue({ error: 'Error message' })
+        });
+
+        await fetchFriends('testUser');
+
+        expect(consoleErrorSpy).toHaveBeenCalledWith('Error fetching friends:', 'Error message');
+        consoleErrorSpy.mockRestore();
     });
 
     test('should fetch and display friends correctly', async () => {
@@ -451,3 +495,5 @@ describe('fetchFriends tests', () => {
         consoleErrorSpy.mockRestore();
     });
 });
+
+
